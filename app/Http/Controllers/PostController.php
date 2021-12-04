@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Exports\PostsExport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 
 class PostController extends Controller
 {
@@ -18,6 +20,24 @@ class PostController extends Controller
 
         return view('index', compact('posts'));
     }
+    private $excel;
+        public function __construct(Excel $excel)
+        {
+            $this->excel = $excel;
+        }
+
+    public function export() {
+
+        return $this->excel->download(new PostsExport,'posts.pdf',Excel::MPDF);
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
